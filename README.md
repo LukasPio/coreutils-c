@@ -35,7 +35,7 @@ Each utility is implemented independently and can be built and executed on its o
 
 | Utility | Status |
 | ------- | ------ |
-| cat     | ⏳      |
+| cat     | ✅      |
 | ls      | ⏳      |
 | wc      | ⏳      |
 | grep    | ⏳      |
