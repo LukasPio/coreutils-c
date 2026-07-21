@@ -54,6 +54,7 @@ Each utility is implemented independently and can be built and executed on its o
 * Minimal dependencies
 * Readable code
 * Learn by reading the manual pages (`man`)
+* AI usage: **0%** ( except for this README :p ).
 
 ## Build
 
