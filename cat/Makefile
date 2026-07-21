@@ -1,2 +1,2 @@
 compile:
-	gcc main.c -o cat.o
+	gcc main.c -o ../dist/cat.o
