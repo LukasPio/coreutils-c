@@ -3,7 +3,7 @@
 #include <errno.h>
 #include <string.h>
 
-#define EARG -1
+#define NOARGS -1
 
 int getFd(const char* path);
 int getStringLen(const char* s);
@@ -11,7 +11,7 @@ void die(const char *exitmessage, const int errorcode);
 void handleErrno();
 
 int main(int argc, char* argv[]) {
-    if (argc != 2) die("Usage: cat [FILE]\n", EARG);
+    if (argc != 2) die("Usage: cat [FILE]\n", NOARGS);
     
     char* filePath = argv[1];
     
