@@ -1,13 +1,14 @@
 #include <fcntl.h>
 #include <unistd.h>
 #include <errno.h>
+#include <string.h>
 
 #define EARG -1
 
 int getFd(const char* path);
 int getStringLen(const char* s);
 void die(const char *exitmessage, const int errorcode);
-void handleErrno(const char *message);
+void handleErrno();
 
 int main(int argc, char* argv[]) {
     if (argc != 2) die("Usage: cat [FILE]\n", EARG);
@@ -17,13 +18,14 @@ int main(int argc, char* argv[]) {
     int fd = getFd(filePath);
     
     char buffer[4096];
-    ssize_t result;
+    ssize_t rbytes;
 
-    while((result = read(fd, buffer, sizeof(buffer))) > 0) {
-        write(STDOUT_FILENO, buffer, result);
+    while((rbytes = read(fd, buffer, sizeof(buffer))) > 0) {
+        ssize_t wbytes = write(STDOUT_FILENO, buffer, rbytes);
+        if (wbytes == -1) handleErrno();
     }
 
-    if (result == -1) handleErrno(":22 error at read()");
+    if (rbytes == -1) handleErrno();
 
     close(fd);
 
@@ -33,7 +35,7 @@ int main(int argc, char* argv[]) {
 int getFd(const char* path) {
     int fd = open(path, O_RDONLY);
 
-    if (fd == -1) handleErrno(":33 error at open()");
+    if (fd == -1) handleErrno();
 
     return fd;
 }
@@ -44,8 +46,9 @@ int getStringLen(const char *s) {
     return counter;
 }
 
-void handleErrno(const char* message) {
-    die(message, errno);
+void handleErrno() {
+    char* errmsg = strerror(errno);
+    die(errmsg, errno);
 }
 
 void die(const char *exitmessage, const int errorcode) {
